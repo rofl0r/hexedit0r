@@ -16,6 +16,8 @@
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.*/
 #include "hexedit.h"
 
+int have_colors;
+
 int move_cursor(INT delta)
 {
   return set_cursor(base + cursor + delta);
@@ -103,16 +105,14 @@ int computeCursorXPos(int cursor, int hexOrAscii)
 void initCurses(void)
 {
   initscr();
-
-#ifdef HAVE_COLORS
-  if (colored) {
+  have_colors = has_colors();
+  if (have_colors && colored) {
     start_color();
     use_default_colors();
     init_pair(1, COLOR_RED, -1);   /* null zeros */
     init_pair(2, COLOR_GREEN, -1); /* control chars */
     init_pair(3, COLOR_BLUE, -1);  /* extended chars */
   }
-#endif
 
   refresh();
   raw();
@@ -188,12 +188,10 @@ void displayLine(int offset, int max)
     if (i > offset) MAXATTRPRINTW(bufferAttr[i] & MARKED, (((i - offset) % blocSize) ? " " : "  "));
     if (i < max) {
       ATTRPRINTW(
-#ifdef HAVE_COLORS
-		 (!colored ? 0 :
+		 (!(have_colors && colored) ? 0 :
 		  buffer[i] == 0 ? COLOR_PAIR(1) :
 		  buffer[i] < ' ' ? COLOR_PAIR(2) : 
 		  buffer[i] >= 127 ? COLOR_PAIR(3) : 0) |
-#endif
 		 bufferAttr[i], ("%02X", buffer[i]));
     }
     else PRINTW(("  "));

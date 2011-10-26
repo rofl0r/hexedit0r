@@ -42,10 +42,7 @@ modeType mode = maximized;
 int colored = FALSE;
 
 char * usage = "usage: %s [-s | --sector] [-m | --maximize]"
-#ifdef HAVE_COLORS 
-     " [--color]"
-#endif 
-     " [-h | --help] filename\n";
+     " [--nocolor] [-h | --help] filename\n";
 
 
 /*******************************************************************************/
@@ -55,6 +52,7 @@ int main(int argc, char **argv)
 {
   progName = basename(argv[0]);
   argv++; argc--;
+  colored = TRUE;
 
   for (; argc > 0; argv++, argc--) 
     {
@@ -62,10 +60,8 @@ int main(int argc, char **argv)
 	mode = bySector;
       else if (streq(*argv, "-m") || streq(*argv, "--maximize"))
 	mode = maximized;
-#ifdef HAVE_COLORS
-      else if (streq(*argv, "--color"))
-	colored = TRUE;
-#endif
+      else if (streq(*argv, "--nocolor"))
+	colored = FALSE;
       else if (streq(*argv, "--")) {
 	argv++; argc--;
 	break;
