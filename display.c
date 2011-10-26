@@ -266,13 +266,14 @@ void ungetstr(char *s)
 int get_number(INT *i)
 {
   int err;
+  long long i_cast = *i;
   char tmp[BLOCK_SEARCH_SIZE];
   echo();
   getnstr(tmp, BLOCK_SEARCH_SIZE - 1);
   noecho();
   if (strbeginswith(tmp, "0x"))
-    err = sscanf(tmp + strlen("0x"), "%llx", i);
+    err = sscanf(tmp + strlen("0x"), "%llx", &i_cast);
   else
-    err = sscanf(tmp, "%lld", i);
+    err = sscanf(tmp, "%lld", &i_cast);
   return err == 1;
 }
