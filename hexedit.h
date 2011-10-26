@@ -1,24 +1,18 @@
 #ifndef HEXEDIT_H
 #define HEXEDIT_H
 
-#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#if HAVE_FCNTL_H
 #include <fcntl.h>
-#endif
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 #include <curses.h>
 #include <ctype.h>
 #include <signal.h>
-#if HAVE_SYS_WAIT_H
 #include <sys/wait.h>
-#endif
 #include <errno.h>
 #if HAVE_LIBGEN_H
 #include <libgen.h>
@@ -27,8 +21,9 @@
 #include <sys/mount.h> /* for BLKGETSIZE */
 #endif
 
-
 #define INT off_t
+void LSEEK(int fd, INT where);
+int LSEEK_(int fd, INT where);
 
 /*******************************************************************************/
 /* Macros */
@@ -195,39 +190,5 @@ char *mymemmem(char *a, int sizea, char *b, int sizeb);
 char *mymemrmem(char *a, int sizea, char *b, int sizeb);
 int is_file(char *name);
 int hexStringToBinString(char *p, int *l);
-
-/*******************************************************************************/
-/* Functions provided for OSs that don't have them */
-/*******************************************************************************/
-void LSEEK(int fd, INT where);
-int LSEEK_(int fd, INT where);
-
-#ifndef HAVE_DECL_MEMRCHR
-char *memrchr(void *s, char c, int n);
-#endif
-
-#ifndef HAVE_DECL_MEMMEM
-void *memmem(void *a, size_t sizea, void *b, size_t sizeb);
-#endif
-
-#ifndef HAVE_DECL_MEMRMEM
-void *memrmem(void *a, size_t sizea, void *b, size_t sizeb);
-#endif
-
-#ifndef HAVE_DECL_BASENAME
-char *basename(const char *file);
-#endif
-
-#ifndef HAVE_STRERROR
-char *strerror(int errnum);
-#endif
-
-#ifndef HAVE_STRDUP
-char *strdup(const char *str)
-#endif
-
-#ifndef HAVE_MEMCMP
-#define memcmp(s1, s2, n) bcmp(s2, s1, n)
-#endif
 
 #endif  /* HEXEDIT_H */

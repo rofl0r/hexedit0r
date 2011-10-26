@@ -38,38 +38,6 @@ void LSEEK(int fd, INT where)
 }
 
 /*******************************************************************************/
-/* Functions provided for OSs that don't have them */
-/*******************************************************************************/
-#ifndef HAVE_BASENAME
-char *basename(char *file) {
-  char *p = strrchr(file, '/');
-  return p ? p + 1 : file;
-}
-#endif
-
-#ifndef HAVE_STRERROR
-char *strerror(int errnum) {
-  extern char *sys_errlist[];
-  extern int sys_nerr;
-
-  if (errnum > 0 && errnum <= sys_nerr)
-    return sys_errlist[errnum];
-  return _("Unknown system error");
-}
-#endif
-
-#ifndef HAVE_STRDUP
-char *strdup(const char *str)
-{
-  size_t len = strlen(str) + 1;
-  void *new = malloc(len);
-  if (new == NULL) return NULL;
-
-  return (char *) bcopy(str, new, len);
-}
-#endif
-
-/*******************************************************************************/
 /* Small common functions */
 /*******************************************************************************/
 int streq(const char *s1, const char *s2) { return strcmp(s1, s2) == 0; }
