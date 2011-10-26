@@ -53,7 +53,6 @@ char * usage = "usage: %s [-s | --sector] [-m | --maximize]"
 /*******************************************************************************/
 int main(int argc, char **argv)
 {
-  int i, recognized;
   progName = basename(argv[0]);
   argv++; argc--;
 
