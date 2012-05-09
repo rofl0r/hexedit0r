@@ -15,7 +15,6 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.*/
 #include "hexedit.h"
-#include <errno.h>
 
 int have_colors;
 
@@ -269,8 +268,9 @@ int get_number(INT *i)
   getnstr(tmp, BLOCK_SEARCH_SIZE - 1);
   noecho();
   int base = ((tmp[0] == '0' && tmp[1] == 'x') ? 16 : 10);
-  errno = 0;
-  unsigned long val = strtoul(tmp, NULL, base);
+  char *endptr;
+  unsigned long long val = strtoull(tmp, &endptr, base);
   *i = val;
-  return (errno != EINVAL);
+  return (base == 16 && (size_t) endptr > ((size_t) tmp) + 2) ||
+         (base == 10 && endptr != tmp);
 }
