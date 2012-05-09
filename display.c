@@ -15,6 +15,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.*/
 #include "hexedit.h"
+#include <errno.h>
 
 int have_colors;
 
@@ -263,15 +264,13 @@ void ungetstr(char *s)
 
 int get_number(INT *i)
 {
-  int err;
-  long long i_cast = *i;
   char tmp[BLOCK_SEARCH_SIZE];
   echo();
   getnstr(tmp, BLOCK_SEARCH_SIZE - 1);
   noecho();
-  if (strbeginswith(tmp, "0x"))
-    err = sscanf(tmp + strlen("0x"), "%llx", &i_cast);
-  else
-    err = sscanf(tmp, "%lld", &i_cast);
-  return err == 1;
+  int base = ((tmp[0] == '0' && tmp[1] == 'x') ? 16 : 10);
+  errno = 0;
+  unsigned long val = strtoul(tmp, NULL, base);
+  *i = val;
+  return (errno != EINVAL);
 }
