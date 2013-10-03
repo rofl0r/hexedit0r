@@ -1,33 +1,22 @@
-#
-# Makefile for proxychains (requires GNU make), stolen from musl
-#
 # Use config.mak to override any of the following variables.
 # Do not make changes here.
-#
 
-exec_prefix = /usr/local
-bindir = $(exec_prefix)/bin
+prefix = /usr/local
+bindir = $(prefix)/bin
+mandir = $(prefix)/share/man
 
-prefix = /usr/local/
-includedir = $(prefix)/include
-libdir = $(prefix)/lib
+SRCS := $(sort $(wildcard *.c))
+OBJS := $(SRCS:.c=.o)
 
-SRCS = $(sort $(wildcard *.c))
-OBJS = $(SRCS:.c=.o)
-LOBJS = $(OBJS:.o=.lo)
-
-CFLAGS  += -Wall -O0 -g -std=c99 -D_GNU_SOURCE -pipe 
-INC     = 
-PIC     = -fPIC -O0
-AR      = $(CROSS_COMPILE)ar
-RANLIB  = $(CROSS_COMPILE)ranlib
+CFLAGS  += -Wall -D_GNU_SOURCE -pipe 
 
 -include config.mak
 
 all: hexedit
 
-install: 
-	install -D -m 755 hexedit $(bindir)
+install: hexedit hexedit.1
+	install -D -m 755 hexedit $(DESTDIR)$(bindir)/hexedit
+	install -D -m 644 hexedit.1 $(DESTDIR)$(mandir)/man1/hexedit.1
 
 clean:
 	rm -f hexedit
@@ -37,6 +26,6 @@ hexedit: $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) -o hexedit -lncurses
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(CFLAGS_MAIN) $(INC) -c -o $@ $<
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 .PHONY: all clean install
