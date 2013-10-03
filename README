@@ -1,0 +1,15 @@
+this is hexedit0r, rofl0r's fork of hexedit 1.2.12
+==================================================
+
+differences from upstream hexedit:
+  - colors are enabled by default
+  - no autconf
+
+requirements:
+  - a C compiler, preferably GCC
+  - ncurses headers and libraries
+  - gnu make
+
+installation:
+  make CC=gcc [CFLAGS="-Wall"] [LDFLAGS="-static"] [-j16]
+  make [prefix=/usr] [DESTDIR=$HOME] install
