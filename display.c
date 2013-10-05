@@ -190,7 +190,7 @@ void displayLine(int offset, int max)
       ATTRPRINTW(
 		 (!(have_colors && colored) ? 0 :
 		  buffer[i] == 0 ? COLOR_PAIR(1) :
-		  buffer[i] < ' ' ? COLOR_PAIR(2) : 
+		  buffer[i] < ' ' ? COLOR_PAIR(2) :
 		  buffer[i] >= 127 ? COLOR_PAIR(3) : 0) |
 		 bufferAttr[i], ("%02X", buffer[i]));
     }

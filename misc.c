@@ -103,7 +103,7 @@ char *mymemrmem(char *a, size_t sizea, char *b, size_t sizeb)
   char *p;
   ssize_t i = sizea - sizeb + 1;
   if (i < 0) return 0;
-  
+
   a += sizea - 1;
   for (; (p = memrchr(a - i + 1, b[sizeb - 1], i)); i -= a - p + 1, a = p - 1)
   {

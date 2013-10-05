@@ -26,7 +26,7 @@ void unmarkAll(void) { unmarkRegion(base, base + nbBytes - 1); }
 void markIt(int i) { bufferAttr[i] |= MARKED; }
 void unmarkIt(int i) { bufferAttr[i] &= ~MARKED; }
 
-void copy_region(void) 
+void copy_region(void)
 {
   typePage *p;
 
@@ -50,7 +50,7 @@ void copy_region(void)
   for (p = edited; p; p = p->next) {
     if (mark_min < p->base + p->size && p->base <= mark_max) {
       off_t min = MIN(p->base, mark_min);
-      memcpy(copyBuffer + p->base - min, 
+      memcpy(copyBuffer + p->base - min,
 	     p->vals + mark_min - min,
 	     MIN(p->base + p->size, mark_max) - MAX(p->base, mark_min) + 1);
     }
@@ -59,7 +59,7 @@ void copy_region(void)
   mark_set = FALSE;
 }
 
-void yank(void) 
+void yank(void)
 {
   if (copyBuffer == NULL) { displayMessageAndWaitForKey("Nothing to paste"); return; }
   if (isReadOnly) { displayMessageAndWaitForKey("File is read-only!"); return; }
@@ -67,7 +67,7 @@ void yank(void)
   readFile();
 }
 
-void yank_to_a_file(void) 
+void yank_to_a_file(void)
 {
   char tmp[BLOCK_SEARCH_SIZE];
   int f;
@@ -75,7 +75,7 @@ void yank_to_a_file(void)
   if (copyBuffer == NULL) { displayMessageAndWaitForKey("Nothing to paste"); return; }
 
   if (!displayMessageAndGetString("File name: ", &lastYankToAFile, tmp, sizeof(tmp))) return;
-  
+
   if ((f = open(tmp, O_RDONLY)) != -1) {
     close(f);
     displayTwoLineMessage("File exists", "Overwrite it (Yes/No)");
@@ -101,7 +101,7 @@ void fill_with_string(void)
   if (sizeCopyBuffer > BIGGEST_COPYING) {
     displayTwoLineMessage("Hey, don't you think that's too big?!", "Really fill (Yes/No)");
     if (tolower(getch()) != 'y') return;
-  }  
+  }
   if (!displayMessageAndGetString(msg, last, tmp2, sizeof(tmp2))) return;
   l1 = mark_max - mark_min + 1;
   l2 = strlen(tmp2);

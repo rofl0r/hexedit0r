@@ -54,7 +54,7 @@ int main(int argc, char **argv)
   argv++; argc--;
   colored = TRUE;
 
-  for (; argc > 0; argv++, argc--) 
+  for (; argc > 0; argv++, argc--)
     {
       if (streq(*argv, "-s") || streq(*argv, "--sector"))
 	mode = bySector;
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 
   init();
   if (argc == 1) {
-    fileName = strdup(*argv); 
+    fileName = strdup(*argv);
     openFile();
   }
   initCurses();
@@ -116,8 +116,5 @@ void quit(void)
   FREE(lastFindFile); FREE(lastYankToAFile); FREE(lastAskHexString); FREE(lastAskAsciiString); FREE(lastFillWithStringHexa); FREE(lastFillWithStringAscii);
   exit(0);
 }
-
-
-
 
 

@@ -50,8 +50,8 @@ void discardEdited(void)
   for (p = edited; p; p = q) {
     q = p->next;
     freePage(p);
-  } 
-  edited = NULL; 
+  }
+  edited = NULL;
   lastEditedLoc = 0;
   if (base + cursor > biggestLoc) set_cursor(biggestLoc);
   if (mark_max >= biggestLoc) mark_max = biggestLoc - 1;
@@ -127,12 +127,12 @@ void removeFromEdited(off_t base, int size)
 	p->base = base + size;
       }
     } else if (p->base + p->size <= base + size) {
-      if (base < p->base + p->size) p->size -= p->base + p->size - base;      
+      if (base < p->base + p->size) p->size -= p->base + p->size - base;
     } else {
       q = newPage(base + size, p->base + p->size - base - size);
       memcpy(q->vals, p->vals + base + size - p->base, q->size);
       q->next = p->next;
-      p->next = q;      
+      p->next = q;
       p->size -= p->base + p->size - base;
       break;
     }
@@ -140,8 +140,8 @@ void removeFromEdited(off_t base, int size)
   updatelastEditedLoc();
 }
 
-typePage *newPage(off_t base, int size) 
-{ 
+typePage *newPage(off_t base, int size)
+{
   typePage *p = (typePage *) malloc(sizeof(typePage));
   p->base = base;
   p->size = size;
@@ -154,12 +154,4 @@ void freePage(typePage *page)
   free(page->vals);
   free(page);
 }
-
-
-
-
-
-
-
-
 
