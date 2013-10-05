@@ -14,9 +14,6 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <errno.h>
-#if HAVE_LIBGEN_H
-#include <libgen.h>
-#endif
 #if HAVE_SYS_MOUNT_H
 #include <sys/mount.h> /* for BLKGETSIZE */
 #endif
