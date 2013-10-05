@@ -83,10 +83,9 @@ void yank_to_a_file(void)
   }
   if ((f = creat(tmp, 0666)) == -1 || write(f, copyBuffer, sizeCopyBuffer) == -1) {
     displayMessageAndWaitForKey(strerror(errno));
-    return;
   }
 
-  close(f);
+  if (f != -1) close(f);
 }
 
 void fill_with_string(void)
