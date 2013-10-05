@@ -16,13 +16,13 @@
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.*/
 #include "hexedit.h"
 
-static int searchA(char **string, size_t *sizea, char *tmp, int tmp_size);
+static int searchA(char **string, size_t *sizea, char *tmp, size_t tmp_size);
 static void searchB(off_t loc, char *string);
 
 /*******************************************************************************/
 /* Search functions */
 /*******************************************************************************/
-static int searchA(char **string, size_t *sizea, char *tmp, int tmp_size)
+static int searchA(char **string, size_t *sizea, char *tmp, size_t tmp_size)
 {
   char *msg = hexOrAscii ? "Hexa string to search: " : "Ascii string to search: ";
   char **last = hexOrAscii ? &lastAskHexString : &lastAskAsciiString;
