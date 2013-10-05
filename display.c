@@ -172,9 +172,9 @@ void display(void)
   if (isReadOnly) i = '%';
   else if (edited) i = '*';
   else i = '-';
-  printw("-%c%c  %s       --0x%llX", i, i, baseName, base + cursor);
-  if (MAX(fileSize, lastEditedLoc)) printw("/0x%llX", getfilesize());
-  if (mode == bySector) printw("--sector %d", (base + cursor) / SECTOR_SIZE);
+  printw("-%c%c  %s       --0x%llX", i, i, baseName, (long long) base + cursor);
+  if (MAX(fileSize, lastEditedLoc)) printw("/0x%llX", (long long) getfilesize());
+  if (mode == bySector) printw("--sector %lld", (long long) (base + cursor) / SECTOR_SIZE);
 
   move(cursor / lineLength, computeCursorXCurrentPos());
 }
