@@ -4,6 +4,7 @@ this is hexedit0r, rofl0r's fork of hexedit 1.2.12
 differences from upstream hexedit:
   - colors are enabled by default
   - no autconf
+  - less type bugs (like using int for sizes)
 
 requirements:
   - a C compiler, preferably GCC
@@ -13,3 +14,8 @@ requirements:
 installation:
   make CC=gcc [CFLAGS="-Wall"] [LDFLAGS="-static"] [-j16]
   make [prefix=/usr] [DESTDIR=$HOME] install
+
+in case your libc has memmem and/or memrmem, you can
+add -DHAVE_MEMMEM / -DHAVE_MEMRMEM to your CFLAGS to use
+the version provided by the libc.
+likewise, if you have sys/mount.h, add -DHAVE_SYS_MOUNT_H.
