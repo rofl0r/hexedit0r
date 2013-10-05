@@ -110,7 +110,7 @@ static void beginning_of_buffer(void)
 
 static void end_of_buffer(void)
 {
-  INT s = getfilesize();
+  off_t s = getfilesize();
   cursorOffset = 0;
   if (mode == bySector) set_base(myfloor(s, page));
   set_cursor(s);
@@ -259,7 +259,7 @@ void ask_about_save_and_quit(void)
 
 static void goto_char(void)
 {
-  INT i;
+  off_t i;
 
   displayOneLineMessage("New position ? ");
   ungetstr("0x");
@@ -268,7 +268,7 @@ static void goto_char(void)
 
 static void goto_sector(void)
 {
-  INT i;
+  off_t i;
 
   displayOneLineMessage("New sector ? ");
   if (get_number(&i) && set_base(i * SECTOR_SIZE))

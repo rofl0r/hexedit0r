@@ -21,16 +21,15 @@
 #include <sys/mount.h> /* for BLKGETSIZE */
 #endif
 
-#define INT off_t
-void LSEEK(int fd, INT where);
-int LSEEK_(int fd, INT where);
+void LSEEK(int fd, off_t where);
+int LSEEK_(int fd, off_t where);
 
 /*******************************************************************************/
 /* Macros */
 /*******************************************************************************/
 #define BIGGEST_COPYING (1 * 1024 * 1024)
 #define BLOCK_SEARCH_SIZE (4 * 1024)
-#define SECTOR_SIZE ((INT) 512)
+#define SECTOR_SIZE ((off_t) 512)
 #ifndef CTRL
   #define CTRL(c) ((c) & 0x1F)
 #endif
@@ -72,7 +71,7 @@ extern char *usage;
 typedef struct _typePage {
   struct _typePage *next;
 
-  INT base;
+  off_t base;
   int size;
   unsigned char *vals;
 } typePage;
@@ -82,9 +81,9 @@ typedef struct _typePage {
 /* Global variables */
 /*******************************************************************************/
 
-extern INT lastEditedLoc, biggestLoc, fileSize;
-extern INT mark_min, mark_max, mark_set;
-extern INT base, oldbase;
+extern off_t lastEditedLoc, biggestLoc, fileSize;
+extern off_t mark_min, mark_max, mark_set;
+extern off_t base, oldbase;
 extern int normalSpaces, cursor, cursorOffset, hexOrAscii;
 extern int cursor, blocSize, lineLength, colsUsed, page;
 extern int isReadOnly, fd, nbBytes, oldcursor, oldattr, oldcursorOffset;
@@ -99,11 +98,11 @@ extern char *lastFindFile, *lastYankToAFile, *lastAskHexString, *lastAskAsciiStr
 /*******************************************************************************/
 /* Miscellaneous functions declaration */
 /*******************************************************************************/
-INT getfilesize(void);
+off_t getfilesize(void);
 int key_to_function(int key);
 void init(void);
 void quit(void);
-int tryloc(INT loc);
+int tryloc(off_t loc);
 void openFile(void);
 void readFile(void);
 int findFile(void);
@@ -121,19 +120,19 @@ void setToChar(int i, unsigned char c);
 /* Pages handling functions declaration */
 /*******************************************************************************/
 void discardEdited(void);
-void addToEdited(INT base, int size, unsigned char *vals);
-void removeFromEdited(INT base, int size);
-typePage *newPage(INT base, int size);
+void addToEdited(off_t base, int size, unsigned char *vals);
+void removeFromEdited(off_t base, int size);
+typePage *newPage(off_t base, int size);
 void freePage(typePage *page);
 
 
 /*******************************************************************************/
 /* Cursor manipulation function declarations */
 /*******************************************************************************/
-int move_cursor(INT delta);
-int set_cursor(INT loc);
-int move_base(INT delta);
-int set_base(INT loc);
+int move_cursor(off_t delta);
+int set_cursor(off_t loc);
+int move_base(off_t delta);
+int set_base(off_t loc);
 
 /*******************************************************************************/
 /* Curses functions declaration */
@@ -149,7 +148,7 @@ void displayTwoLineMessage(char *msg1, char *msg2);
 void displayMessageAndWaitForKey(char *msg);
 int displayMessageAndGetString(char *msg, char **last, char *p, int p_size);
 void ungetstr(char *s);
-int get_number(INT *i);
+int get_number(off_t *i);
 
 
 /*******************************************************************************/
@@ -162,8 +161,8 @@ void search_backward(void);
 /*******************************************************************************/
 /* Mark functions declaration */
 /*******************************************************************************/
-void markRegion(INT a, INT b);
-void unmarkRegion(INT a, INT b);
+void markRegion(off_t a, off_t b);
+void unmarkRegion(off_t a, off_t b);
 void markSelectedRegion(void);
 void unmarkAll(void);
 void markIt(int i);
@@ -180,7 +179,7 @@ void fill_with_string(void);
 int streq(const char *s1, const char *s2);
 int strbeginswith(const char *a, const char *prefix);
 int myceil(int a, int b);
-INT myfloor(INT a, INT b);
+off_t myfloor(off_t a, off_t b);
 int setLowBits(int p, int val);
 int setHighBits(int p, int val);
 char *strconcat3(char *a, char *b, char *c);

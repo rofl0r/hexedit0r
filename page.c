@@ -57,7 +57,7 @@ void discardEdited(void)
   if (mark_max >= biggestLoc) mark_max = biggestLoc - 1;
 }
 
-void addToEdited(INT base, int size, unsigned char *vals)
+void addToEdited(off_t base, int size, unsigned char *vals)
 {
   typePage *p, *q = NULL;
   for (p = edited; p; q = p, p = p->next) {
@@ -74,7 +74,7 @@ void addToEdited(INT base, int size, unsigned char *vals)
 
   if (q && base <= q->base + q->size && q->base <= base + size) {
     /* chevauchement (?? how to say it in english ??) */
-    INT min, max;
+    off_t min, max;
     unsigned char *s;
     min = MIN(q->base, base);
     if (p && base + size == p->base) {
@@ -111,7 +111,7 @@ void addToEdited(INT base, int size, unsigned char *vals)
   updatelastEditedLoc();
 }
 
-void removeFromEdited(INT base, int size)
+void removeFromEdited(off_t base, int size)
 {
   typePage *p, *q = NULL;
   for (p = edited; p; p ? (q = p, p = p->next) : (q = NULL, p = edited)) {
@@ -140,7 +140,7 @@ void removeFromEdited(INT base, int size)
   updatelastEditedLoc();
 }
 
-typePage *newPage(INT base, int size) 
+typePage *newPage(off_t base, int size) 
 { 
   typePage *p = (typePage *) malloc(sizeof(typePage));
   p->base = base;

@@ -18,12 +18,12 @@
 
 int have_colors;
 
-int move_cursor(INT delta)
+int move_cursor(off_t delta)
 {
   return set_cursor(base + cursor + delta);
 }
 
-int set_cursor(INT loc)
+int set_cursor(off_t loc)
 {
   if (loc < 0 && base % lineLength)
     loc = 0;
@@ -52,7 +52,7 @@ int set_cursor(INT loc)
   return TRUE;
 }
 
-int move_base(INT delta)
+int move_base(off_t delta)
 {
   if (mode == bySector) {
     if (delta > 0 && delta < page)
@@ -63,7 +63,7 @@ int move_base(INT delta)
   return set_base(base + delta);
 }
 
-int set_base(INT loc)
+int set_base(off_t loc)
 {
   if (loc < 0) loc = 0;
 
@@ -261,7 +261,7 @@ void ungetstr(char *s)
     for (p = s + strlen(s) - 1; p >= s; p--) ungetch(*p);
 }
 
-int get_number(INT *i)
+int get_number(off_t *i)
 {
   char tmp[BLOCK_SEARCH_SIZE];
   echo();

@@ -20,9 +20,9 @@
 /*******************************************************************************/
 /* Global variables */
 /*******************************************************************************/
-INT lastEditedLoc, biggestLoc, fileSize;
-INT mark_min, mark_max, mark_set;
-INT base, oldbase;
+off_t lastEditedLoc, biggestLoc, fileSize;
+off_t mark_min, mark_max, mark_set;
+off_t base, oldbase;
 int normalSpaces, cursor, cursorOffset, hexOrAscii;
 int cursor, blocSize, lineLength, colsUsed, page;
 int isReadOnly, fd, nbBytes, oldcursor, oldattr, oldcursorOffset;

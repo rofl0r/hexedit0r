@@ -17,17 +17,17 @@
 #include "hexedit.h"
 
 
-int LSEEK_(int fd, INT where)
+int LSEEK_(int fd, off_t where)
 {
-  INT result;
+  off_t result;
 
   result = lseek(fd, where, SEEK_SET);
   return (result == where) ? 1 : -1;
 }
 
-void LSEEK(int fd, INT where)
+void LSEEK(int fd, off_t where)
 {
-  INT result;
+  off_t result;
 
   result = lseek(fd, where, SEEK_SET);
   if (result != where) {
@@ -41,7 +41,7 @@ void LSEEK(int fd, INT where)
 /* Small common functions */
 /*******************************************************************************/
 int streq(const char *s1, const char *s2) { return strcmp(s1, s2) == 0; }
-INT myfloor(INT a, INT b) { return a - a % b; }
+off_t myfloor(off_t a, off_t b) { return a - a % b; }
 int setLowBits(int p, int val) { return (p & 0xF0) + val; }
 int setHighBits(int p, int val) { return (p & 0x0F) + val * 0x10; }
 

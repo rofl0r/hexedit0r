@@ -48,7 +48,7 @@ void openFile(void)
 #ifdef BLKGETSIZE
     unsigned long i;
     if (ioctl(fd, BLKGETSIZE, &i) == 0)
-      fileSize = (INT) i * 512;
+      fileSize = (off_t) i * 512;
     else
 #endif
       fileSize = 0;
@@ -59,7 +59,7 @@ void openFile(void)
 void readFile(void)
 {
   typePage *p;
-  INT i;
+  off_t i;
 
   memset(buffer, 0, page * sizeof(*buffer));
 
@@ -98,7 +98,7 @@ int findFile(void)
 }
 
 
-INT getfilesize(void)
+off_t getfilesize(void)
 {
   return MAX(lastEditedLoc, biggestLoc);
 }
@@ -110,7 +110,7 @@ INT getfilesize(void)
  *   returns TRUE if the cursor is one past EOF to allow appending
  */
 
-int tryloc(INT loc)
+int tryloc(off_t loc)
 {
   char c;
   if (loc < 0)

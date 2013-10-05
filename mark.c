@@ -19,8 +19,8 @@
 /*******************************************************************************/
 /* Mark functions */
 /*******************************************************************************/
-void markRegion(INT a, INT b) { int i; for (i = MAX(a - base, 0); i <= MIN(b - base, nbBytes - 1); i++) markIt(i); }
-void unmarkRegion(INT a, INT b) { int i; for (i = MAX(a - base, 0); i <= MIN(b - base, nbBytes - 1); i++) unmarkIt(i); }
+void markRegion(off_t a, off_t b) { int i; for (i = MAX(a - base, 0); i <= MIN(b - base, nbBytes - 1); i++) markIt(i); }
+void unmarkRegion(off_t a, off_t b) { int i; for (i = MAX(a - base, 0); i <= MIN(b - base, nbBytes - 1); i++) unmarkIt(i); }
 void markSelectedRegion(void) { markRegion(mark_min, mark_max); }
 void unmarkAll(void) { unmarkRegion(base, base + nbBytes - 1); }
 void markIt(int i) { bufferAttr[i] |= MARKED; }
@@ -49,7 +49,7 @@ void copy_region(void)
 
   for (p = edited; p; p = p->next) {
     if (mark_min < p->base + p->size && p->base <= mark_max) {
-      INT min = MIN(p->base, mark_min);
+      off_t min = MIN(p->base, mark_min);
       memcpy(copyBuffer + p->base - min, 
 	     p->vals + mark_min - min,
 	     MIN(p->base + p->size, mark_max) - MAX(p->base, mark_min) + 1);

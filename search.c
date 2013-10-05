@@ -17,7 +17,7 @@
 #include "hexedit.h"
 
 static int searchA(char **string, int *sizea, char *tmp, int tmp_size);
-static void searchB(INT loc, char *string);
+static void searchB(off_t loc, char *string);
 
 /*******************************************************************************/
 /* Search functions */
@@ -41,7 +41,7 @@ static int searchA(char **string, int *sizea, char *tmp, int tmp_size)
   return TRUE;
 }
 
-static void searchB(INT loc, char *string)
+static void searchB(off_t loc, char *string)
 {
   nodelay(stdscr, FALSE);
   free(string);
@@ -56,7 +56,7 @@ void search_forward(void)
 {
   char *p, *string, tmp[BLOCK_SEARCH_SIZE], tmpstr[BLOCK_SEARCH_SIZE];
   int quit, sizea, sizeb;
-  INT blockstart;
+  off_t blockstart;
 
   if (!searchA(&string, &sizea, tmp, sizeof(tmp))) return;
   quit = -1;
@@ -81,7 +81,7 @@ void search_backward(void)
 {
   char *p, *string, tmp[BLOCK_SEARCH_SIZE], tmpstr[BLOCK_SEARCH_SIZE];
   int quit, sizea, sizeb;
-  INT blockstart;
+  off_t blockstart;
 
   if (!searchA(&string, &sizea, tmp, sizeof(tmp))) return;
   quit = -1;
