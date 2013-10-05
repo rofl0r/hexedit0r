@@ -25,7 +25,7 @@ clean:
 hexedit: $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) -o hexedit -lncurses
 
-%.o: %.c
+%.o: %.c hexedit.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 .PHONY: all clean install
