@@ -117,9 +117,9 @@ char *mymemrmem(char *a, int sizea, char *b, int sizeb)
 }
 
 
-int hexStringToBinString(char *p, int *l)
+int hexStringToBinString(char *p, size_t *l)
 {
-  int i;
+  size_t i;
 
   for (i = 0; i < *l; i++) {
     if (!isxdigit(p[i])) {

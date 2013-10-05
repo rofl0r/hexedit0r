@@ -94,7 +94,7 @@ void fill_with_string(void)
   char **last = hexOrAscii ? &lastFillWithStringHexa : &lastFillWithStringAscii;
   char tmp2[BLOCK_SEARCH_SIZE];
   unsigned char *tmp1;
-  int i, l1, l2;
+  size_t i, l1, l2;
 
   if (!mark_set) return;
   if (isReadOnly) { displayMessageAndWaitForKey("File is read-only!"); return; }

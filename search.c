@@ -16,13 +16,13 @@
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.*/
 #include "hexedit.h"
 
-static int searchA(char **string, int *sizea, char *tmp, int tmp_size);
+static int searchA(char **string, size_t *sizea, char *tmp, int tmp_size);
 static void searchB(off_t loc, char *string);
 
 /*******************************************************************************/
 /* Search functions */
 /*******************************************************************************/
-static int searchA(char **string, int *sizea, char *tmp, int tmp_size)
+static int searchA(char **string, size_t *sizea, char *tmp, int tmp_size)
 {
   char *msg = hexOrAscii ? "Hexa string to search: " : "Ascii string to search: ";
   char **last = hexOrAscii ? &lastAskHexString : &lastAskAsciiString;
@@ -55,7 +55,8 @@ static void searchB(off_t loc, char *string)
 void search_forward(void)
 {
   char *p, *string, tmp[BLOCK_SEARCH_SIZE], tmpstr[BLOCK_SEARCH_SIZE];
-  int quit, sizea, sizeb;
+  int quit;
+  size_t sizea, sizeb;
   off_t blockstart;
 
   if (!searchA(&string, &sizea, tmp, sizeof(tmp))) return;
@@ -80,7 +81,8 @@ void search_forward(void)
 void search_backward(void)
 {
   char *p, *string, tmp[BLOCK_SEARCH_SIZE], tmpstr[BLOCK_SEARCH_SIZE];
-  int quit, sizea, sizeb;
+  int quit;
+  size_t sizea, sizeb;
   off_t blockstart;
 
   if (!searchA(&string, &sizea, tmp, sizeof(tmp))) return;
@@ -94,7 +96,7 @@ void search_backward(void)
     if (sizeb < sizea) quit = -3;
     else {
       if (LSEEK_(fd, blockstart) == -1) { quit = -3; break; }
-      if (sizeb != read(fd, tmp, sizeb)) quit = -3;
+      if ((ssize_t) sizeb != read(fd, tmp, sizeb)) quit = -3;
       else if (getch() != ERR) quit = -2;
       else if ((p = mymemrmem(tmp, sizeb, string, sizea))) quit = p - tmp;
     }

@@ -188,6 +188,6 @@ int not(int b);
 char *mymemmem(char *a, int sizea, char *b, int sizeb);
 char *mymemrmem(char *a, int sizea, char *b, int sizeb);
 int is_file(char *name);
-int hexStringToBinString(char *p, int *l);
+int hexStringToBinString(char *p, size_t *l);
 
 #endif  /* HEXEDIT_H */
