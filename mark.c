@@ -106,7 +106,7 @@ void fill_with_string(void)
   l1 = mark_max - mark_min + 1;
   l2 = strlen(tmp2);
   if (hexOrAscii) {
-    if (strlen(tmp2) == 1) {
+    if (l2 == 1) {
       if (!isxdigit(*tmp2)) { displayMessageAndWaitForKey("Invalid hexa string"); return; }
       *tmp2 = hexCharToInt(*tmp2);
     } else if (!hexStringToBinString(tmp2, &l2)) return;
