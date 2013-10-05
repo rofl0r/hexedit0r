@@ -74,21 +74,21 @@ int not(int b) { return b ? FALSE: TRUE; }
 #ifndef HAVE_MEMRCHR
 void *memrchr(const void *s, int c, size_t n)
 {
-  int i;
+  ssize_t i;
   const char *cs = s;
   for (i = n - 1; i >= 0; i--) if (cs[i] == c) return (void *) &cs[i];
   return NULL;
 }
 #endif
 
-char *mymemmem(char *a, int sizea, char *b, int sizeb)
+char *mymemmem(char *a, size_t sizea, char *b, size_t sizeb)
 {
 #ifdef HAVE_MEMMEM
   return memmem(a, sizea, b, sizeb);
 #else
   char *p;
-  int i = sizea - sizeb + 1;
-  
+  ssize_t i = sizea - sizeb + 1;
+  if (i < 0) return 0;
   for (; (p = memchr(a, b[0], i)); i -= p - a + 1, a = p + 1)
   {
     if ((memcmp(p + 1, b + 1, sizeb - 1)) == 0) {
@@ -99,13 +99,14 @@ char *mymemmem(char *a, int sizea, char *b, int sizeb)
 #endif
 }
 
-char *mymemrmem(char *a, int sizea, char *b, int sizeb)
+char *mymemrmem(char *a, size_t sizea, char *b, size_t sizeb)
 {
 #ifdef HAVE_MEMRMEM
   return memrmem(a, sizea, b, sizeb);
 #else
   char *p;
-  int i = sizea - sizeb + 1;
+  ssize_t i = sizea - sizeb + 1;
+  if (i < 0) return 0;
   
   a += sizea - 1;
   for (; (p = memrchr(a - i + 1, b[sizeb - 1], i)); i -= a - p + 1, a = p - 1)
