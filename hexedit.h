@@ -185,8 +185,16 @@ int setHighBits(int p, int val);
 char *strconcat3(char *a, char *b, char *c);
 int hexCharToInt(int c);
 int not(int b);
+#ifndef HAVE_MEMMEM
 char *mymemmem(char *a, size_t sizea, char *b, size_t sizeb);
+#else
+#define mymemmem(a,b,c,d) memmem(a,b,c,d)
+#endif
+#ifndef HAVE_MEMRMEM
 char *mymemrmem(char *a, size_t sizea, char *b, size_t sizeb);
+#else
+#define mymemrmem(a,b,c,d) memrmem(a,b,c,d)
+#endif
 int is_file(char *name);
 int hexStringToBinString(char *p, size_t *l);
 

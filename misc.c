@@ -81,11 +81,9 @@ void *memrchr(const void *s, int c, size_t n)
 }
 #endif
 
+#ifndef HAVE_MEMMEM
 char *mymemmem(char *a, size_t sizea, char *b, size_t sizeb)
 {
-#ifdef HAVE_MEMMEM
-  return memmem(a, sizea, b, sizeb);
-#else
   char *p;
   ssize_t i = sizea - sizeb + 1;
   if (i < 0) return 0;
@@ -96,14 +94,12 @@ char *mymemmem(char *a, size_t sizea, char *b, size_t sizeb)
     }
   }
   return NULL;
-#endif
 }
+#endif
 
+#ifndef HAVE_MEMRMEM
 char *mymemrmem(char *a, size_t sizea, char *b, size_t sizeb)
 {
-#ifdef HAVE_MEMRMEM
-  return memrmem(a, sizea, b, sizeb);
-#else
   char *p;
   ssize_t i = sizea - sizeb + 1;
   if (i < 0) return 0;
@@ -114,8 +110,8 @@ char *mymemrmem(char *a, size_t sizea, char *b, size_t sizeb)
     if ((memcmp(p - sizeb + 1, b, sizeb - 1)) == 0) return p;
   }
   return NULL;
-#endif
 }
+#endif
 
 
 int hexStringToBinString(char *p, size_t *l)
