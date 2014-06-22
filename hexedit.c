@@ -41,7 +41,7 @@ modeParams modes[LAST] = {
 modeType mode = maximized;
 int colored = FALSE;
 
-char * usage = "usage: %s [-s | --sector] [-m | --maximize]"
+char * usage = "usage: %s [-s | --sector] [-m | --maximize] [-l<n> | --linelength <n>]"
      " [--nocolor] [-h | --help] filename\n";
 
 
@@ -57,11 +57,21 @@ int main(int argc, char **argv)
   for (; argc > 0; argv++, argc--)
     {
       if (streq(*argv, "-s") || streq(*argv, "--sector"))
-	mode = bySector;
-      else if (streq(*argv, "-m") || streq(*argv, "--maximize"))
-	mode = maximized;
+        mode = bySector;
+      else if (streq(*argv, "-m") || streq(*argv, "--maximize")) {
+        mode = maximized;
+        lineLength = 0;
+      }
       else if (streq(*argv, "--nocolor"))
 	colored = FALSE;
+      else if (strbeginswith(*argv, "-l") || strbeginswith(*argv, "--linelength")) {
+        if (strbeginswith(*argv, "-l") && strlen(*argv) > 2)
+          lineLength = atoi(*argv + 2);
+        else {
+          argv++; argc--;
+          lineLength = atoi(*argv);
+        }
+      }
       else if (streq(*argv, "--")) {
 	argv++; argc--;
 	break;
@@ -116,5 +126,3 @@ void quit(void)
   FREE(lastFindFile); FREE(lastYankToAFile); FREE(lastAskHexString); FREE(lastAskAsciiString); FREE(lastFillWithStringHexa); FREE(lastFillWithStringAscii);
   exit(0);
 }
-
-

@@ -31,7 +31,7 @@ int LSEEK_(int fd, off_t where);
   #define CTRL(c) ((c) & 0x1F)
 #endif
 #define ALT(c) ((c) | 0xa0)
-#define DIE(M) { fprintf(stderr, M, progName); exit(1); }
+#define DIE(M) { exitCurses(); fprintf(stderr, M, progName); exit(1); }
 #define FREE(p) if (p) free(p)
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
