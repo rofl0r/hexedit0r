@@ -1,18 +1,28 @@
 # Use config.mak to override any of the following variables.
 # Do not make changes here.
 
+.POSIX:
+
 prefix = /usr/local
 bindir = $(prefix)/bin
 mandir = $(prefix)/share/man
 
-SRCS := $(sort $(wildcard *.c))
-OBJS := $(SRCS:.c=.o)
+OBJS = display.o \
+       file.o \
+       hexedit.o \
+       interact.o \
+       mark.o \
+       misc.o \
+       page.o \
+       search.o
 
-CFLAGS  += -Wall -D_GNU_SOURCE -pipe 
+CFLAGS = -Wall -D_GNU_SOURCE -pipe
 
--include config.mak
+include config.mak
 
 all: hexedit
+
+$(OBJS): hexedit.h
 
 install: hexedit hexedit.1
 	install -D -m 755 hexedit $(DESTDIR)$(bindir)/hexedit
@@ -23,9 +33,12 @@ clean:
 	rm -f $(OBJS)
 
 hexedit: $(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) -o hexedit -lncurses
+	$(CC) $(LDFLAGS) -o hexedit $(OBJS) -lncurses
 
-%.o: %.c hexedit.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+.SUFFIXES:
+.SUFFIXES: .o .c
+
+.c.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
 
 .PHONY: all clean install
